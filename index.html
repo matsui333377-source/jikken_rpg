@@ -796,6 +796,7 @@
     drawPath(5, 6, 14, 5); // 城->森
     drawPath(20, 13, 6, 20); // 村->砂漠
     drawPath(5, 5, 10, 3); // 城->雪山
+    drawPath(33, 7, 30, 22); // 魔王城手前->港町 (道確保)
 
     // 特殊シンボルを配置
     fData[13][20] = 15; fData[12][20] = 19; fData[14][20] = 19; // 村
@@ -1026,13 +1027,31 @@
         const imgData = tCtx.getImageData(0, 0, tCanvas.width, tCanvas.height);
         const data = imgData.data;
         if (data.length > 0) {
-          // 四隅の左上のピクセルを背景色として推定
+          // 四隅を起点にして背景色を塗りつぶし（Flood Fill）で透明化する
           let bgR = data[0], bgG = data[1], bgB = data[2];
-          for (let i = 0; i < data.length; i += 4) {
-            const r = data[i], g = data[i + 1], b = data[i + 2];
-            // 推定背景色に近い色を透明（Alpha=0）にする
+          const width = tCanvas.width;
+          const height = tCanvas.height;
+          const visited = new Uint8Array(width * height);
+          const q = [[0, 0], [width - 1, 0], [0, height - 1], [width - 1, height - 1]];
+          let head = 0;
+
+          while (head < q.length) {
+            const pos = q[head++];
+            const x = pos[0], y = pos[1];
+            const vIdx = y * width + x;
+            const idx = vIdx * 4;
+
+            if (visited[vIdx]) continue;
+            visited[vIdx] = 1;
+
+            const r = data[idx], g = data[idx + 1], b = data[idx + 2];
+            // 推定背景色に近い色を透明にする
             if (Math.abs(r - bgR) < 30 && Math.abs(g - bgG) < 30 && Math.abs(b - bgB) < 30) {
-              data[i + 3] = 0;
+              data[idx + 3] = 0; // 透明化
+              if (x > 0) q.push([x - 1, y]);
+              if (x < width - 1) q.push([x + 1, y]);
+              if (y > 0) q.push([x, y - 1]);
+              if (y < height - 1) q.push([x, y + 1]);
             }
           }
           tCtx.putImageData(imgData, 0, 0);
