@@ -657,6 +657,11 @@
               if (flags.shrine_cursed) return '「言い訳ばかりの魔物の声が聞こえて集中できん…」';
               return '「己と向き合うのだ。すべては自分次第じゃ。」';
             }
+          },
+          {
+            id: 'shrine_rumor', x: 12, y: 6, name: '巡礼者', img: 'npcScholarImg', getMsg: () => {
+              return '「ここから東に行った先の海に、恐ろしい魔王の城があるという噂じゃ。\n７つの証をすべて集めるまでは、決して近づいてはならんぞ…」';
+            }
           }
         ], signs: {},
         exits: { '8,14': { dest: 'field', x: 8, y: 7 }, '9,14': { dest: 'field', x: 8, y: 7 } }
