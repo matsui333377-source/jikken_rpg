@@ -421,11 +421,14 @@
           {
             id: 'shop', x: 11, y: 11, name: '道具屋', img: 'npcDwarfImg', color: '#33cc55', getMsg: () => {
               if (flags.nemuri_cursed) return '「グー…薬草はいらんかね…グー…」';
-              if (!flags.nemuri_cleared) {
-                player.items.herb = (player.items.herb || 0) + 5;
-                return '「目が覚めました！あなたが町を救ってくれたのですね。\nお礼に当店の『やくそう』を5個持っていってください！\n(やくそうを5個もらった)」';
+              player.items.herb = player.items.herb || 0;
+              if (player.items.herb >= 5) {
+                return '「いらっしゃい！『やくそう』はもう充分持っているみたいだね。\n気をつけて行くんだよ！」';
+              } else {
+                const add = 5 - player.items.herb;
+                player.items.herb = 5;
+                return `「いらっしゃい！うちの『やくそう』をタダで持っていきな！\n減っていた分を${add}個補充しておいたよ。\n（やくそうが5個になった！）」`;
               }
-              return '「いらっしゃい！やくそうは1個10Gだよ。」';
             }
           },
           {
