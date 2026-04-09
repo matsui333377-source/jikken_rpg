@@ -263,7 +263,7 @@
           [0, 0, 0, 0, 0, 0, 0, 2, 31, 31, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         ],
         npcs: [
-          { id: 'king', x: 9, y: 2, name: '王様', img: 'npcKingImg', msg: '「おお ジッケンよ！ 新しい姿になってより一層勇ましくなったな！\n世界にはびこる怠惰の魔物たちを倒し、\n真の誠実さを身につけるのじゃ！」' },
+          { id: 'king', x: 9, y: 2, name: '王様', img: 'npcKingImg', msg: '「おお ジッケンよ！\n各地にはびこる怠惰の魔物たちを倒し、\n7つの証を集めたら再びわしのもとに来るのじゃ！」' },
           { id: 'chancellor', x: 8, y: 2, name: '大臣', img: 'npcChancellorImg', color: '#ffaaaa', msg: '「誠実性が低いうちは、無理せず逃げることも時には大事ですぞ。\nボス戦では逃げられませぬが、それまでは生きてこそ！ですじゃ。」' },
           {
             id: 'priest', x: 2, y: 3, name: '神父', img: 'npcPriestImg', getMsg: () => {
@@ -437,7 +437,7 @@
           {
             id: 'informant', x: 18, y: 11, name: '情報屋', img: 'npcAssassinImg', getMsg: () => {
               if (flags.nemuri_cursed) return '「ふわぁ…耳寄りな情報も…明日教えるよ…」';
-              return '「中盤、どこへ行けばいいか迷ってないか？\nここから東の『マヨイの森』か、南西の『ナマケの砂漠』に行くのがおすすめだぜ。\nボス戦で負けると逃げられない仕様だからな。しっかりレベルを上げておくんだな」';
+              return '「中盤、どこへ行けばいいか迷ってないか？\nここから北西の『マヨイの森』か、西の『ナマケの砂漠』に行くのがおすすめだぜ。」';
             }
           }
         ],
@@ -1527,6 +1527,7 @@
       battle.monster = mDef;
       battle.curHp = mDef.maxHp;
       battle.cmdIndex = 0;
+      battle.isBoss = false;
 
       gameState = 'battle_msg';
       showMsg(`${mDef.name} があらわれた！\n${mDef.msg}`, () => {
